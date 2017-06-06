@@ -257,7 +257,7 @@ for i in range(len(Run_Number)):
 
     os.system('scp -r * cctrack@vocms062:/data/users/event_display/'+DataLocalDir+'/'+dest+'/'+str(nnnOut)+'/'+str(Run_Number[i])+'/'+Run_type)
 
-#    os.system('scp -r * cctrack@vocms061:/data/users/event_display/'+DataLocalDir+'/'+dest+'/'+str(nnn)+'/'+str(Run_Number[i])+'/'+Run_type)
+#    os.system('scp -r * cctrack@vocms061:/data/users/event_display/'+DataLocalDir+'/'+dest+'/'+str(nnnOut)+'/'+str(Run_Number[i])+'/'+Run_type)
 
     os.chdir(workPath)
     shutil.rmtree(str(Run_Number[i]))
@@ -268,6 +268,7 @@ for i in range(len(Run_Number)):
     os.system('python TH2PolyOfflineMaps.py ' + filepath+'/'+File_Name)
     shutil.move(workPath+'/PixZeroOccROCs_run'+str(Run_Number[i])+'.txt', 'OUT/PixZeroOccROCs_run'+str(Run_Number[i])+'.txt')
     os.system('scp -r OUT/* cctrack@vocms062:/data/users/event_display/'+DataLocalDir+'/'+dest+'/'+str(nnnOut)+'/'+str(Run_Number[i])+'/'+Run_type)
+#    os.system('scp -r OUT/* cctrack@vocms061:/data/users/event_display/'+DataLocalDir+'/'+dest+'/'+str(nnnOut)+'/'+str(Run_Number[i])+'/'+Run_type)
     shutil.rmtree('OUT')
 
     os.chdir(workPath)   
@@ -278,7 +279,7 @@ for i in range(len(Run_Number)):
     os.system('python script.py ' + filepath+'/'+File_Name + ' detids.dat ' + pixelTreeFileName)
 
     os.system('scp ' + pixelTreeFileName + ' cctrack@vocms062:/data/users/event_display/TkCommissioner_runs/'+DataLocalDir+'/'+dest)
-
+#    os.system('scp ' + pixelTreeFileName + ' cctrack@vocms061:/data/users/event_display/TkCommissioner_runs/'+DataLocalDir+'/'+dest)
  
     os.remove(pixelTreeFileName)
 

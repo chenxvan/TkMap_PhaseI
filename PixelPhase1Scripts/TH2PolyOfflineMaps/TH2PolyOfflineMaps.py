@@ -437,13 +437,13 @@ class TH2PolyOfflineMaps:
         txt.DrawLatex(0.5, 0.075, "NUMBER ->")
         txt.DrawLatex(0.5, 0.875, "+DISK")
         
-        txt.DrawLatex(0.12, 0.35, "+z")
-        txt.DrawLatex(0.315, 0.665, "+phi")
+        txt.DrawLatex(0.17, 0.35, "+z")
+        txt.DrawLatex(0.355, 0.685, "+phi")
         txt.DrawLatex(0.38, 0.73, "+x")
         txt.DrawLatex(0.235, 0.875, "+y")
         
         txt.SetTextAngle(90)
-        txt.DrawLatex(0.125, 0.5, "BARREL")
+        txt.DrawLatex(0.17, 0.5, "BARREL")
   
         #save to the png
         c1.Print(self.outputDirName + mv + ".png")
