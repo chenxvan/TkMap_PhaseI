@@ -169,6 +169,13 @@ for i in range(len(Run_Number)):
 # rename bad module list file
     sefile = 'QualityTest_run'+str(Run_Number[i])+'.txt'
     shutil.move('QTBadModules.log',sefile)
+
+# put color legend in the TrackerMap     
+    os.system('/usr/bin/python '+workPath+'/DQM/SiStripMonitorClient/scripts/LegendToQT.py QTestAlarm.png /data/users/cctrack/FinalLegendTrans.png')
+    shutil.move('result.png', 'QTestAlarm.png')
+
+
+
     if Run_type == "Cosmics":
         os.system('cat '+workPath+'/DQM/SiStripMonitorClient/data/index_template_TKMap_cosmics.html | sed -e "s@RunNumber@'+str(Run_Number[i])+'@g" > index.html')
     else:
@@ -189,7 +196,7 @@ for i in range(len(Run_Number)):
     os.system('listbadmodule '+filepath+'/'+File_Name+' PCLBadComponents.log')
     if Run_type != "StreamExpress":
         shutil.copyfile(sefile, checkdir+'/'+sefile)
-        os.system('python '+workPath+'/DQM/SiStripMonitorClient/scripts/findBadModT9.py -p '+sefile+' -s /'+checkdir+'/'+sefile);
+        os.system('/usr/bin/python '+workPath+'/DQM/SiStripMonitorClient/scripts/findBadModT9.py -p '+sefile+' -s /'+checkdir+'/'+sefile);
       
       
 ## Producing the run certification by lumisection
@@ -218,13 +225,11 @@ for i in range(len(Run_Number)):
 
 
 ## create merged list of BadComponent from (PCL, RunInfo and FED Errors) ignore for now
-#    os.system('cmsRun '+workPath+'/DQM/SiStripMonitorClient/test/mergeBadChannel_Template_cfg.py globalTag='+globalTag+' runNumber='+str(Run_Number[i])+' dqmFile='+filepath+'/'+File_Name)
-#    shutil.move('MergedBadComponents.log','MergedBadComponents_run'+str(Run_Number[i])+'.txt')
-#    shutil.rmtree('*.xml')
-#    shutil.rmtree('*.svg')
+    os.system('cmsRun '+workPath+'/DQM/SiStripMonitorClient/test/mergeBadChannel_Template_cfg.py globalTag='+globalTag+' runNumber='+str(Run_Number[i])+' dqmFile='+filepath+'/'+File_Name)
+    shutil.move('MergedBadComponents.log','MergedBadComponents_run'+str(Run_Number[i])+'.txt')
 
-    HOST='cctrack@vocms062'
-#    HOST='cctrack@vocms061'
+#    HOST='cctrack@vocms062'
+    HOST='cctrack@vocms061'
     COMMAND="mkdir -p /data/users/event_display/TkCommissioner_runs/"+DataLocalDir+"/"+dest+" 2> /dev/null" 
     ssh = subprocess.Popen(["ssh", "%s" % HOST, COMMAND],
                        shell=False,
@@ -255,9 +260,9 @@ for i in range(len(Run_Number)):
 
     shutil.move('PixZeroOccROCs_run'+str(Run_Number[i])+'.txt',workPath+'/PixZeroOccROCs_run'+str(Run_Number[i])+'.txt')
 
-    os.system('scp -r * cctrack@vocms062:/data/users/event_display/'+DataLocalDir+'/'+dest+'/'+str(nnnOut)+'/'+str(Run_Number[i])+'/'+Run_type)
+#    os.system('scp -r * cctrack@vocms062:/data/users/event_display/'+DataLocalDir+'/'+dest+'/'+str(nnnOut)+'/'+str(Run_Number[i])+'/'+Run_type)
 
-#    os.system('scp -r * cctrack@vocms061:/data/users/event_display/'+DataLocalDir+'/'+dest+'/'+str(nnnOut)+'/'+str(Run_Number[i])+'/'+Run_type)
+    os.system('scp -r * cctrack@vocms061:/data/users/event_display/'+DataLocalDir+'/'+dest+'/'+str(nnnOut)+'/'+str(Run_Number[i])+'/'+Run_type)
 
     os.chdir(workPath)
     shutil.rmtree(str(Run_Number[i]))
@@ -267,8 +272,8 @@ for i in range(len(Run_Number)):
     os.chdir(workPath + '/PixelPhase1Scripts/TH2PolyOfflineMaps')
     os.system('python TH2PolyOfflineMaps.py ' + filepath+'/'+File_Name)
     shutil.move(workPath+'/PixZeroOccROCs_run'+str(Run_Number[i])+'.txt', 'OUT/PixZeroOccROCs_run'+str(Run_Number[i])+'.txt')
-    os.system('scp -r OUT/* cctrack@vocms062:/data/users/event_display/'+DataLocalDir+'/'+dest+'/'+str(nnnOut)+'/'+str(Run_Number[i])+'/'+Run_type)
-#    os.system('scp -r OUT/* cctrack@vocms061:/data/users/event_display/'+DataLocalDir+'/'+dest+'/'+str(nnnOut)+'/'+str(Run_Number[i])+'/'+Run_type)
+#    os.system('scp -r OUT/* cctrack@vocms062:/data/users/event_display/'+DataLocalDir+'/'+dest+'/'+str(nnnOut)+'/'+str(Run_Number[i])+'/'+Run_type)
+    os.system('scp -r OUT/* cctrack@vocms061:/data/users/event_display/'+DataLocalDir+'/'+dest+'/'+str(nnnOut)+'/'+str(Run_Number[i])+'/'+Run_type)
     shutil.rmtree('OUT')
 
     os.chdir(workPath)   
@@ -278,8 +283,8 @@ for i in range(len(Run_Number)):
     os.chdir(workPath + '/PixelPhase1Scripts/PythonBINReader')
     os.system('python script.py ' + filepath+'/'+File_Name + ' detids.dat ' + pixelTreeFileName)
 
-    os.system('scp ' + pixelTreeFileName + ' cctrack@vocms062:/data/users/event_display/TkCommissioner_runs/'+DataLocalDir+'/'+dest)
-#    os.system('scp ' + pixelTreeFileName + ' cctrack@vocms061:/data/users/event_display/TkCommissioner_runs/'+DataLocalDir+'/'+dest)
+#    os.system('scp ' + pixelTreeFileName + ' cctrack@vocms062:/data/users/event_display/TkCommissioner_runs/'+DataLocalDir+'/'+dest)
+    os.system('scp ' + pixelTreeFileName + ' cctrack@vocms061:/data/users/event_display/TkCommissioner_runs/'+DataLocalDir+'/'+dest)
  
     os.remove(pixelTreeFileName)
 
